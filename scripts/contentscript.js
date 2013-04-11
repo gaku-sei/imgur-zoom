@@ -6,7 +6,6 @@ $('body').append($('<div>').attr('id', 'zoom-imgur-modal').
   append($('<img>').css({border: '5px solid black'})).hide());
 
 var $modal = $('#zoom-imgur-modal');
-
 var displayModal = function(e) {
   var width = screen.availWidth - leftPanelPixels - 40;
   $modal.css('top', window.scrollY + 50).
@@ -14,4 +13,17 @@ var displayModal = function(e) {
   $modal.show();
 };
 
+var loadedImagesCount = 0;
+var loadImages = function(e) {
+  var load = function(selector) {
+    $(selector).map(function(){return this.src.replace('b.', '.')}).
+      each(function(){loadedImagesCount++;console.log(loadedImagesCount); var img = new Image; img.src = this});
+  };
+  switch(e.type) {
+    case 'load': load('.posts img'); break;
+    case 'scroll': if($('.posts img').size() > loadedImagesCount) load('.posts:last img'); break;
+  }
+};
+
 $('#imagelist').on({mouseover: displayModal, mouseout: function(){$modal.hide()}}, '.post img');
+$(window).on('load scroll', loadImages);
