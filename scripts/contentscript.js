@@ -14,16 +14,13 @@ var displayModal = function(e) {
 };
 
 var loadedImagesCount = 0;
-var loadImages = function(e) {
-  var load = function(selector) {
-    $(selector).map(function(){return this.src.replace('b.', '.')}).
-      each(function(){loadedImagesCount++;console.log(loadedImagesCount); var img = new Image; img.src = this});
-  };
-  switch(e.type) {
-    case 'load': load('.posts img'); break;
-    case 'scroll': if($('.posts img').size() > loadedImagesCount) load('.posts:last img'); break;
-  }
+var load = function(selector) {
+  $(selector).map(function(){return this.src.replace('b.', '.')}).
+    each(function(){loadedImagesCount++;console.log(loadedImagesCount); var img = new Image; img.src = this});
 };
 
 $('#imagelist').on({mouseover: displayModal, mouseout: function(){$modal.hide()}}, '.post img');
-$(window).on('load scroll', loadImages);
+$(window).on({
+  load: function(){load('.posts img')},
+  scroll: function(){if($('.posts img').size() > loadedImagesCount) load('.posts:last img')}
+});
