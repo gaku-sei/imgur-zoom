@@ -1,21 +1,17 @@
-var displayModal = function(x, y, src) {
-  var $modal = $('#zoom-imgur-modal');
-  $modal.css({top: y, left: x, position: 'absolute'});
-  $modal.find('img').attr('src', src.replace('b.', '.'));
+var $panelLeft = $('.panel.left');
+var leftPanelPixels = $panelLeft.outerWidth(true) + $panelLeft.offset().left;
+
+$('body').append($('<div>').attr('id', 'zoom-imgur-modal').
+  css({left: leftPanelPixels, position: 'absolute', 'z-index': 9999}).
+  append($('<img>').css({border: '5px solid black'})).hide());
+
+var $modal = $('#zoom-imgur-modal');
+
+var displayModal = function(e) {
+  var width = screen.availWidth - leftPanelPixels - 40;
+  $modal.css('top', window.scrollY + 50).
+    find('img').attr({src: e.target.src.replace('b.', '.'), width: width});
   $modal.show();
-}
+};
 
-$('body').append($('<div>').
-  attr('id', 'zoom-imgur-modal').
-  append($('<img>').
-    css({border: '5px solid black'})).
-  hide());
-
-$('#imagelist').on({
-  mouseover: function(e) {
-    displayModal(e.pageX + 10, e.pageY + 10, e.target.src);
-  },
-  mouseout: function(e) {
-    $('#zoom-imgur-modal').hide();
-  }
-}, '.post img');
+$('#imagelist').on({mouseover: displayModal, mouseout: function(){$modal.hide()}}, '.post img');
