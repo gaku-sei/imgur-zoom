@@ -1,17 +1,10 @@
 {
   "name": "Imgur Zoom",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "manifest_version": 2,
 
-  "description": "Automatic zoom on index thumbnail in imgur",
+  "description": "Automatic zoom on images in Imgur indexes",
   "icons": {"128": "icons/icon-large.png"},
-  "page_action": {
-    "default_icon": {
-      "19": "icons/icon19.png",
-      "38": "icons/icon38.png"
-    },
-    "default_title": "Imgur Zoom"
-  },
   "content_scripts": [{
     "matches": ["http://imgur.com/*"],
     "js": ["scripts/jquery-1.9.1.min.js", "scripts/contentscript.js"]
