@@ -16,7 +16,7 @@ var displayModal = function(e) {
 var loadedImagesCount = 0;
 var load = function(selector) {
   $(selector).map(function(){return this.src.replace('b.', '.')}).
-    each(function(){loadedImagesCount++;console.log(loadedImagesCount); var img = new Image; img.src = this});
+    each(function(){loadedImagesCount++; var img = new Image; img.src = this});
 };
 
 $('#imagelist').on({mouseover: displayModal, mouseout: function(){$modal.hide()}}, '.post img');
